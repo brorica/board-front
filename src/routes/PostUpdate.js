@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Instance from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-const PostWrite = () => {
+const PostUpdate = () => {
   const navigate = useNavigate();
-
+  const { postId } = useParams();
   const [post, setPost] = useState({
+    postId: 0,
     title: '',
     content: '',
   });
-
   const { title, content } = post;
 
   const onChange = (event) => {
@@ -20,21 +20,25 @@ const PostWrite = () => {
     });
   };
 
-  const savePost = async () => {
-    await Instance.post('//localhost:8080/api/posts', post, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      alert('등록됐습니다.');
-      backToList();
+  const updatePost = async () => {
+    await Instance.put(`/posts/${postId}`, post).then((res) => {
+      alert('수정됨');
+      backToDetail();
     });
   };
 
-  const backToList = () => {
-    navigate('/post');
+  const backToDetail = () => {
+    navigate(`/post/${postId}`);
   };
+
+  const getPost = async () => {
+    const response = await Instance.get(`/posts/${postId}`);
+    setPost(await response.data);
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
 
   return (
     <div>
@@ -56,11 +60,11 @@ const PostWrite = () => {
       </div>
       <br />
       <div>
-        <button onClick={savePost}>저장</button>
-        <button onClick={backToList}>취소</button>
+        <button onClick={updatePost}>저장</button>
+        <button onClick={backToDetail}>취소</button>
       </div>
     </div>
   );
 };
 
-export default PostWrite;
+export default PostUpdate;

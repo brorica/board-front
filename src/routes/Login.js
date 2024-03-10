@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Instance from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -10,11 +10,10 @@ const Login = () => {
   const tryAuth = (event) => {
     event.preventDefault(); // 폼 제출에 의한 페이지 새로고침 방지
 
-    axios
-      .post('http://localhost:8080/api/members/sign-in', {
-        email: email,
-        password: password,
-      })
+    Instance.post('/members/sign-in', {
+      email: email,
+      password: password,
+    })
       .then((res) => {
         alert(`${email}님 반갑습니다.`);
         navigate('/'); // 로그인 성공 후 홈으로 이동
