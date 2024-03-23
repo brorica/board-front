@@ -9,6 +9,7 @@ const PostList = () => {
     currentPage: 0,
     isFirst: true,
     isLast: true,
+    pageNumberList: [],
   });
 
   const getPostList = async (page = 0) => {
@@ -20,6 +21,7 @@ const PostList = () => {
       currentPage: response.currentPage,
       isFirst: response.first,
       isLast: response.last,
+      pageNumberList: response.pageNumbers,
     });
   };
 
@@ -41,14 +43,18 @@ const PostList = () => {
         ))}
       </ul>
       <div>
+        {/* 첫 페이지 가기 */}
         {!pageInfo.isFirst && (
-          <button onClick={() => getPostList(pageInfo.currentPage - 1)}>
-            이전 페이지
-          </button>
+          <button onClick={() => getPostList(0)}>{'첫 페이지'}</button>
         )}
+        {pageInfo.pageNumberList.map((number) => (
+          <button key={number} onClick={() => getPostList(number)}>
+            {number + 1}
+          </button>
+        ))}
         {!pageInfo.isLast && (
           <button onClick={() => getPostList(pageInfo.currentPage + 1)}>
-            다음 페이지
+            {'다음'}
           </button>
         )}
       </div>
