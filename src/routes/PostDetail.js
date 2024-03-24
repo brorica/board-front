@@ -22,7 +22,15 @@ const PostDetail = () => {
       {loading ? (
         <h2> loading... </h2>
       ) : (
-        <Post postId={post.postId} title={post.title} content={post.content} />
+        <Post
+          postId={post.postId}
+          title={post.title}
+          content={post.content}
+          creator={post.creator}
+          createdAt={post.createdAt}
+          viewCount={post.viewCount}
+          upvoteCount={post.upvoteCount}
+        />
       )}
     </div>
   );

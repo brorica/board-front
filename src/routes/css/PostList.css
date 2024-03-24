@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* 상단 간격 */
+}
+
+th,
+td {
+  padding: 10px; /* 내부 간격 */
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}

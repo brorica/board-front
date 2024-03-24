@@ -1,8 +1,17 @@
 import React from 'react';
 import Instance from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import './css/Post.css';
 
-const Post = ({ postId, title, content }) => {
+const Post = ({
+  postId,
+  title,
+  content,
+  creator,
+  createdAt,
+  viewCount,
+  upvoteCount,
+}) => {
   const navigate = useNavigate();
 
   const moveToUpdate = () => {
@@ -23,12 +32,14 @@ const Post = ({ postId, title, content }) => {
   };
 
   return (
-    <div>
-      <div>
-        <h2> {title} </h2>
-        <hr />
-        <p> {content} </p>
+    <div className="post">
+      <h2>{title}</h2>
+      <div className="postInfo">
+        <span>작성자: {creator}</span> |
+        <span> 작성 시간: {new Date(createdAt).toLocaleString()}</span> |
+        <span> 조회 수: {viewCount}</span> |<span> 추천 수: {upvoteCount}</span>
       </div>
+      <p>{content}</p>
       <div>
         <button onClick={moveToUpdate}> 수정 </button>
         <button onClick={deletePost}> 삭제 </button>

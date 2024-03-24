@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import './css/PostList.css';
 
 const PostList = () => {
   const navigate = useNavigate();
@@ -29,19 +30,47 @@ const PostList = () => {
     navigate('/write');
   };
 
+  const refineCreateAt = (createdAt) => {
+    const date = new Date(createdAt);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월
+    const day = date.getDate().toString().padStart(2, '0'); // 일
+    const formattedDate = `${month}-${day}`;
+    return formattedDate;
+  };
+
   useEffect(() => {
     getPostList();
   }, []);
 
   return (
     <div>
-      <ul>
-        {postList.map((post) => (
-          <li key={post.postId}>
-            <Link to={`/post/${post.postId}`}> {post.title} </Link>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>조회</th>
+            <th>추천</th>
+          </tr>
+        </thead>
+        <tbody>
+          {postList.map((post) => (
+            <tr key={post.postId}>
+              <td> {post.postId} </td>
+              <td>
+                <Link to={`/post/${post.postId}`}>{post.title}</Link>{' '}
+              </td>
+              <td> {post.creator} </td>
+              <td> {refineCreateAt(post.createdAt)} </td>
+              <td> {post.viewCount} </td>
+              <td> {post.upvoteCount} </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ul></ul>
       <div>
         {/* 첫 페이지 가기 */}
         {!pageInfo.isFirst && (
